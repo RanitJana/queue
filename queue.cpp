@@ -58,9 +58,84 @@ public:
     }
 };
 
+template <typename t = int>
+class QueueLinkedList
+{
+    struct Node
+    {
+        t data;
+        Node *next;
+        Node(t val) : data(val), next(NULL) {}
+    } *tail;
+
+public:
+    QueueLinkedList()
+    {
+        tail = nullptr;
+    }
+    void enqueue(t value)
+    {
+        Node *newNode = new Node(value);
+        if (!tail)
+            tail = newNode;
+        else
+            newNode->next = tail->next;
+        tail->next = newNode;
+        tail = newNode;
+    }
+    t dequeue()
+    {
+        if (tail == NULL)
+        {
+            cout << "Empty.\n";
+            exit(0);
+        }
+        Node *temp = tail->next;
+        if (temp == tail)
+            tail = NULL;
+        else
+            tail->next = temp->next;
+        temp->next = NULL;
+        t data = temp->data;
+        delete temp;
+        return data;
+    }
+    int size()
+    {
+        int ans = 0;
+        if (tail == NULL)
+            return 0;
+        Node *temp = tail;
+        do
+        {
+            ans++;
+            temp = temp->next;
+        } while (temp != tail);
+
+        return ans;
+    }
+    void display()
+    {
+        if (tail == NULL)
+        {
+            cout << "Empty.\n";
+            return;
+        }
+        Node *temp = tail->next;
+        do
+        {
+            cout << temp->data << " ";
+            temp = temp->next;
+
+        } while (temp != tail->next);
+
+        cout << endl;
+    }
+};
+
 int main()
 {
-    QueueArray<int> q(4);
+    QueueLinkedList<int> q;
     while (1)
     {
         int value;
