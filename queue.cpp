@@ -58,6 +58,7 @@ public:
     }
 };
 
+// queue using linked list
 template <typename t = int>
 class QueueLinkedList
 {
@@ -133,9 +134,74 @@ public:
     }
 };
 
+// circular queue
+class CircularQueue
+{
+    int *a;
+    int capacity;
+    int front, rear;
+
+public:
+    CircularQueue(int n)
+    {
+        this->capacity = n;
+        a = new int[n];
+        front = rear = -1;
+    }
+    void enqueue(int value)
+    {
+        if ((rear + 1) % capacity == front)
+        {
+            cout << "queue is full.\n";
+            return;
+        }
+        if (front == -1)
+        {
+            front = 0;
+        }
+        rear = (rear + 1) % capacity;
+        a[rear] = value;
+    }
+    int dequeue()
+    {
+        if (front == -1)
+        {
+            cout << "Empty.\n";
+            return -1;
+        }
+        int data = a[front];
+        if (front == rear)
+        {
+            front = rear = -1;
+        }
+        else
+        {
+            front = (front + 1) % capacity;
+        }
+        return data;
+    }
+    void display()
+    {
+        if (front == -1)
+        {
+            cout << "Empty." << endl;
+            return;
+        }
+        int i = front;
+        while (i != rear)
+        {
+            cout << a[i] << " ";
+            i = (i + 1) % capacity;
+        }
+        cout << a[i] << " ";
+
+        cout << endl;
+    }
+};
+
 int main()
 {
-    QueueLinkedList<int> q;
+    CircularQueue q(5);
     while (1)
     {
         int value;
